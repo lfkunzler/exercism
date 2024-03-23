@@ -1,24 +1,22 @@
 #include "hamming.h"
+#include <stddef.h>
 #include <string.h>
 
 
 int compute(const char *lhs, const char *rhs)
 {
-    size_t i;
-    size_t lhs_len, rhs_len;
-    unsigned int diff = 0;
+    int diff = 0;
+
     if (!lhs || !rhs)
-        return 0;
-
-    lhs_len = strlen(lhs);
-    rhs_len = strlen(rhs);
-
-    if (lhs_len != rhs_len)
         return -1;
 
-    for (i=0; i<lhs_len && i<rhs_len; i++) {
-        if (lhs[i] != rhs[i])
-            diff++;
+    size_t lhs_len = strlen(lhs);
+
+    if (lhs_len != strlen(rhs))
+        return -1;
+
+    for (size_t i=0; i<lhs_len; i++) {
+        diff += (lhs[i] != rhs[i]);
     }
 
     return diff;
