@@ -1,34 +1,26 @@
 #include "isogram.h"
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
-
-char char2upper(char letter);
+#include <ctype.h>
 
 bool is_isogram(const char phrase[])
 {
-    char aux;
-    unsigned int max = 1;
-    size_t i, str_len;
-    unsigned int alphabet['z'-'a'+1] = {0};
+    unsigned int already_seen['z'-'a'+1] = {0};
 
     if (!phrase)
         return 0;
 
-    str_len = strlen(phrase);
+    size_t phrase_len = strlen(phrase);
 
-    for (i=0; i<str_len; i++) {
-        aux = char2upper(phrase[i]);
+    for (size_t i=0; i<phrase_len; i++) {
+        char aux = toupper(phrase[i]);
         if (aux < 'A' || aux > 'Z')
             continue;
-        printf("aux :: %c\n", aux);
-        alphabet[aux-'A']++;
-        if (alphabet[aux-'A'] > max)
-            max = alphabet[aux-'A'];
+        already_seen[aux-'A']++;
+        if (already_seen[aux-'A'] > 1)
+            return false;
     }
-    return max == 1; 
-}
-
-char char2upper(char letter)
-{
-    return letter & 0xDF;
+    return true; 
 }
